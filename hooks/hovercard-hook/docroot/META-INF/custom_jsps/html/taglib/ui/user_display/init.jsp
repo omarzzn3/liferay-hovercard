@@ -29,6 +29,11 @@
 <%@ page import="com.liferay.portal.kernel.util.StringPool" %>
 
 <%
+String userName = GetterUtil.getString((String)request.getAttribute("liferay-ui:user-display:user-name"));
+User userDisplay = (User)request.getAttribute("liferay-ui:user-display:user");
+String url = (String)request.getAttribute("liferay-ui:user-display:url");
+int displayStyle = GetterUtil.getInteger((String)request.getAttribute("liferay-ui:user-display:displayStyle"));
+/* BEGIN Rivet Logic Customization */
 final String HOVER_USER_INFO_SHOW = "hover.user.info.show";
 final String HOVER_USER_INFO_COMMON_FRIENDS = "hover.user.info.common.friends";
 final String HOVER_USER_INFO_EMAIL_ADDRESS = "hover.user.info.email.address";
@@ -36,15 +41,10 @@ final String HOVER_USER_INFO_FRIENDS = "hover.user.info.friends";
 final String HOVER_USER_INFO_PHONE_NUMBER = "hover.user.info.phone.number";
 final String HOVER_USER_INFO_IMAGES_COUNT = "hover.user.info.friends.images";
 				
-User userDisplay = (User)request.getAttribute("liferay-ui:user-display:user");
-				 
 long companyId = themeDisplay.getCompanyId();
 long groupId = themeDisplay.getScopeGroupId();
 long userId = userDisplay.getUserId();
 
-String userName = GetterUtil.getString((String)request.getAttribute("liferay-ui:user-display:user-name"));
-String url = (String)request.getAttribute("liferay-ui:user-display:url");
-int displayStyle = GetterUtil.getInteger((String)request.getAttribute("liferay-ui:user-display:displayStyle"));
-
 String randomNamespace = PortalUtil.generateRandomKey(request, "taglib_ui_user_display") + StringPool.UNDERLINE;
+/* END Rivet Logic Customization */
 %>

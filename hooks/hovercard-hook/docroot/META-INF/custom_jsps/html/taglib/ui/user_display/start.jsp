@@ -25,31 +25,28 @@ if (Validator.isNull(url) && (userDisplay != null)) {
 	url = userDisplay.getDisplayURL(themeDisplay);
 }
 %>
-
+<%-- BEGIN Rivet Logic Customization --%>
 <style>
 .taglib-user-display {
 	display: inline-block;
 }
 
-.taglib-user-display .user-pop-up dl {
+.taglib-user-display .user-pop-up dl{
     margin-bottom:5px;
     margin-top:5px
-}
-
-.taglib-user-display .user-pop-up dd {
-	margin-left: 0;
 }
 
 .taglib-user-display .user-pop-up {
     padding: 15px; 
 }
 
-.taglib-user-display .user-pop-up .friend-image {
-    float: none;
+.taglib-user-display .user-pop-up .user-profile-image{
+    float:left;
 }
 
-.taglib-user-display .user-pop-up .friend-image > img{
-    width: 36px;
+.taglib-user-display .user-pop-up .user-profile-image > img{
+    width: 46px;
+    height: 46px;
     margin-right:3px;
 }
 
@@ -69,7 +66,7 @@ if (Validator.isNull(url) && (userDisplay != null)) {
 </style>
 
 <div id="<%=randomNamespace %>taglib-user-display-wrapper" data-title=" " class="taglib-user-display display-style-<%= displayStyle %>">
-
+<%-- END Rivet Logic Customization --%>
 	<%
 	String taglibAlt = (userDisplay != null) ? HtmlUtil.escapeAttribute(userDisplay.getFullName()) : LanguageUtil.get(pageContext, "generic-portrait");
 
@@ -82,7 +79,9 @@ if (Validator.isNull(url) && (userDisplay != null)) {
 		taglibSrc = UserConstants.getPortraitURL(themeDisplay.getPathImage(), true, 0);
 	}
 	%>
+	<%-- BEGIN Rivet Logic Customization --%>
 	<a href="<%= url %>">
+	<%-- END Rivet Logic Customization --%>
 		<span class="user-profile-image">
 			<img alt="<%= taglibAlt %>" class="avatar" src="<%= HtmlUtil.escape(taglibSrc) %>" width="65" />
 		</span>
@@ -90,21 +89,36 @@ if (Validator.isNull(url) && (userDisplay != null)) {
 		<span class="user-name">
 			<%= (userDisplay != null) ? HtmlUtil.escape(userDisplay.getFullName()) : HtmlUtil.escape(userName) %>
 		</span>
-	</a>
-	
+	<%-- BEGIN Rivet Logic Customization --%>
+ 	</a>
+ 	<%-- END Rivet Logic Customization --%>
 	<div class="user-details">
-	
+		<%-- BEGIN Rivet Logic Customization --%>
 		<%
-		boolean showCommonFriends = PrefsPropsUtil.getBoolean(companyId, HOVER_USER_INFO_COMMON_FRIENDS, GetterUtil.getBoolean(PropsUtil.get(HOVER_USER_INFO_COMMON_FRIENDS)));
-		boolean showEmailAddress = PrefsPropsUtil.getBoolean(companyId, HOVER_USER_INFO_EMAIL_ADDRESS, GetterUtil.getBoolean(PropsUtil.get(HOVER_USER_INFO_EMAIL_ADDRESS)));
-		boolean showFriends = PrefsPropsUtil.getBoolean(companyId, HOVER_USER_INFO_FRIENDS, GetterUtil.getBoolean(PropsUtil.get(HOVER_USER_INFO_FRIENDS)));
-		boolean showPhoneNumber = PrefsPropsUtil.getBoolean(companyId, HOVER_USER_INFO_PHONE_NUMBER, GetterUtil.getBoolean(PropsUtil.get(HOVER_USER_INFO_PHONE_NUMBER)));
-		final int FRIEND_IMAGES_COUNT = GetterUtil.getInteger(PropsUtil.get(HOVER_USER_INFO_IMAGES_COUNT));
-		boolean showPopUp = GetterUtil.getBoolean(PropsUtil.get(HOVER_USER_INFO_SHOW));
-		
-		if (showPopUp && !showCommonFriends && !showEmailAddress && !showFriends && !showPhoneNumber) {
-			showPopUp = false;
-		}
+			boolean showCommonFriends = PrefsPropsUtil.getBoolean(companyId,
+					HOVER_USER_INFO_COMMON_FRIENDS, GetterUtil
+							.getBoolean(PropsUtil
+									.get(HOVER_USER_INFO_COMMON_FRIENDS)));
+			boolean showEmailAddress = PrefsPropsUtil.getBoolean(companyId,
+					HOVER_USER_INFO_EMAIL_ADDRESS, GetterUtil
+							.getBoolean(PropsUtil
+									.get(HOVER_USER_INFO_EMAIL_ADDRESS)));
+			boolean showFriends = PrefsPropsUtil.getBoolean(companyId,
+					HOVER_USER_INFO_FRIENDS, GetterUtil.getBoolean(PropsUtil
+							.get(HOVER_USER_INFO_FRIENDS)));
+			boolean showPhoneNumber = PrefsPropsUtil.getBoolean(companyId,
+					HOVER_USER_INFO_PHONE_NUMBER, GetterUtil
+							.getBoolean(PropsUtil
+									.get(HOVER_USER_INFO_PHONE_NUMBER)));
+			final int FRIEND_IMAGES_COUNT = GetterUtil.getInteger(PropsUtil
+					.get(HOVER_USER_INFO_IMAGES_COUNT));
+			boolean showPopUp = GetterUtil.getBoolean(PropsUtil
+					.get(HOVER_USER_INFO_SHOW));
+
+			if (showPopUp && !showCommonFriends && !showEmailAddress
+					&& !showFriends && !showPhoneNumber) {
+				showPopUp = false;
+			}
 		%>
 		<c:if test="<%= showPopUp %>">
 		
@@ -112,27 +126,27 @@ if (Validator.isNull(url) && (userDisplay != null)) {
 			
 				<dl>
 					<c:if test="<%= showEmailAddress %>">
-						<%List<EmailAddress> emails = userDisplay.getEmailAddresses();%>
-						<c:if test="<%= !emails.isEmpty() %>">
+						<c:set var="emails" value="<%= userDisplay.getEmailAddresses() %>"/>
+						<c:if test="${not empty emails}">
 							<dt><liferay-ui:message key="email-address"/></dt>
 							<dd>
-								<%for (EmailAddress email : emails) { %>
-									<c:if test="<%= email.isPrimary() %>">
-										<aui:a href="mailto:<%= HtmlUtil.escape(email.getAddress()) %>">
-											<span><%= HtmlUtil.escape(email.getAddress()) %></span>
+								<c:forEach items="${emails}" var="email">
+									<c:if test="${email.primary}">
+										<aui:a href="mailto: ${ fn:escapeXml(email.address) }">
+											<span>${ fn:escapeXml(email.address) }</span>
 										</aui:a>
 									</c:if>
-								<%}%>
+								</c:forEach>
 							</dd>
 						</c:if>
 					</c:if>
 					
 					<c:if test="<%= showPhoneNumber %>">
-						<%List<Phone> phones = userDisplay.getPhones();%>
-						<c:if test="<%= !phones.isEmpty() %>">
+						<c:set var="phones" value="<%= userDisplay.getPhones() %>"/>
+						<c:if test="${not empty phones}">
 							<dt>
 								<c:choose>
-									<c:when test="<%= phones.size() > 2 %>">
+									<c:when test="${fn:length(phones) gt 1}">
 										<liferay-ui:message key="phone-numbers" />
 									</c:when>
 									<c:otherwise>
@@ -141,38 +155,46 @@ if (Validator.isNull(url) && (userDisplay != null)) {
 								</c:choose>
 							</dt>
 							<dd>
-								<%for (Phone phone : phones) {%>
-									<c:if test="<%= phone.isPrimary() %>">
-										<span><%= phone.getNumber() %> <%= phone.getExtension() %> <%= LanguageUtil.get(pageContext, phone.getType().getName()) %></span>
+								<c:forEach items="${phones}" var="phone">
+									<c:if test="${phone.primary}">
+										<c:set var="phoneTypeName" value="${phone.type.name }" />
+										<span> 
+											${phone.number} ${phone.extension} <%=LanguageUtil.get(pageContext,
+												(String) pageContext.getAttribute("phoneTypeName"))%>
+										</span>
 									</c:if>
-								<%}%>
+								</c:forEach>
 							</dd>
 						</c:if>
 					</c:if>
 					
 					<c:if test="<%= showFriends %>">
-						<%
-						List<User> friends = UserLocalServiceUtil.getSocialUsers(userId, SocialRelationConstants.TYPE_BI_FRIEND, 0, FRIEND_IMAGES_COUNT, new UserLoginDateComparator());
-						int friendsCount = UserLocalServiceUtil.getSocialUsersCount(userId, SocialRelationConstants.TYPE_BI_FRIEND);
-						%>
-						<dt><liferay-ui:message key="friends" />&nbsp;<%= HtmlUtil.escape("("+friendsCount+")") %></dt>
+
+						<c:set var="friends"
+							value="<%=UserLocalServiceUtil.getSocialUsers(userId,
+							SocialRelationConstants.TYPE_BI_FRIEND, 0,
+							FRIEND_IMAGES_COUNT, new UserLoginDateComparator())%>" />
+						<c:set var="friendsCount"
+							value="<%=UserLocalServiceUtil.getSocialUsersCount(userId,
+							SocialRelationConstants.TYPE_BI_FRIEND)%>" />
+						<dt><liferay-ui:message key="friends" />&nbsp;(${ fn:escapeXml(friendsCount) }) </dt>
 						<c:choose>
-							<c:when test="<%= friendsCount > 0 %>">
+							<c:when test="${friendsCount gt 0}">
 								<dd class="friends">
-									<%
-									for (User friend : friends) {
-										String friendImagePath = friend.getPortraitURL(themeDisplay);
-										String friendAlt = HtmlUtil.escapeAttribute(friend.getFullName());
-										String friendUrl = friend.getDisplayURL(themeDisplay);
-									%>
-									<aui:a href="<%= friendUrl %>">
-										<span class="friend-image">
-											<img alt="<%= friendAlt %>" title="<%= HtmlUtil.escape(friend.getFullName())  %>" class="avatar" src="<%= HtmlUtil.escape(friendImagePath) %>"/>
-										</span>
-									</aui:a>
-									<%
-									}
-									%>
+									<c:forEach items="${friends}" var="friend">
+										<c:set var="friendImagePath" value="<%= ((User)pageContext.getAttribute(\"friend\")).getPortraitURL(themeDisplay) %>" />
+										<c:set var="friendAlt" value="${ fn:escapeXml(friend.fullName) }" />
+										<c:set var="friendUrl" value="<%= ((User)pageContext.getAttribute(\"friend\")).getDisplayURL(themeDisplay) %>" />
+
+										<aui:a href="${friendUrl}">
+											<span class="user-profile-image">
+												<img alt="${friendAlt}" title="${fn:escapeXml(friendAlt)}"
+												class="avatar" src="${fn:escapeXml(friendImagePath)}"
+												width="65" />
+											</span>
+										</aui:a>
+									</c:forEach>
+									
 									<div class="clearfix"></div>
 								</dd>
 							</c:when>
@@ -183,29 +205,40 @@ if (Validator.isNull(url) && (userDisplay != null)) {
 					</c:if>
 					
 					<c:if test="<%= showCommonFriends && themeDisplay.getUserId() != userId %>">
-						<%
-						List<User> commonFriends = UserLocalServiceUtil.getSocialUsers(userId, themeDisplay.getUserId(), SocialRelationConstants.TYPE_BI_FRIEND, 0, FRIEND_IMAGES_COUNT, new UserLoginDateComparator());
-						int commonFriendsCount = UserLocalServiceUtil.getSocialUsersCount(userId, themeDisplay.getUserId(), SocialRelationConstants.TYPE_BI_FRIEND);
-						%>
-						<dt><liferay-ui:message key="common-friends" />&nbsp;<%= HtmlUtil.escape("("+commonFriendsCount+")") %></dt>
+
+						<c:set var="commonFriends"
+							value="<%=UserLocalServiceUtil.getSocialUsers(userId,
+							themeDisplay.getUserId(),
+							SocialRelationConstants.TYPE_BI_FRIEND, 0,
+							FRIEND_IMAGES_COUNT, new UserLoginDateComparator())%>" />
+						<c:set var="commonFriendsCount"
+							value="<%=UserLocalServiceUtil.getSocialUsersCount(userId,
+							themeDisplay.getUserId(),
+							SocialRelationConstants.TYPE_BI_FRIEND)%>" />
+						<dt><liferay-ui:message key="common-friends" />&nbsp;(${ fn:escapeXml(commonFriendsCount) })</dt>
 						<c:choose>
-							<c:when test="<%= commonFriendsCount > 0 %>">
+							<c:when test="${commonFriendsCount gt 0}">
 								<dd class="common-friends">
-									<%
-									for (User friend : commonFriends) {
-										String friendImagePath = friend.getPortraitURL(themeDisplay);
-										String friendAlt = HtmlUtil.escapeAttribute(friend.getFullName());
-										String friendUrl = friend.getDisplayURL(themeDisplay);
-									%>
-										<aui:a href="<%= friendUrl %>">
-											<span class="friend-image">
-												<img alt="<%= friendAlt %>" title="<%= HtmlUtil.escape(friend.getFullName())  %>" class="avatar small-avatar" src="<%= HtmlUtil.escape(friendImagePath) %>" />
+									<c:forEach items="${commonFriends}" var="commonFriend" >
+										<c:set var="friendImagePath"
+											value="<%=((User) pageContext
+										.getAttribute(\"commonFriend\"))
+										.getPortraitURL(themeDisplay)%>" />
+										<c:set var="friendAlt"
+											value="${ fn:escapeXml(commonFriend.fullName) }" />
+										<c:set var="friendUrl"
+											value="<%=((User) pageContext
+										.getAttribute(\"commonFriend\"))
+										.getDisplayURL(themeDisplay)%>" />
+
+										<aui:a href="${friendUrl}">
+											<span class="user-profile-image"> 
+												<img alt="${friendAlt}"
+													title="${fn:escapeXml(friendAlt)}" class="avatar"
+													src="${fn:escapeXml(friendImagePath)}" width="65" />
 											</span>
-											
 										</aui:a>
-									<%
-									}
-									%>
+									</c:forEach>
 								</dd>
 							</c:when>
 							<c:otherwise>
@@ -233,3 +266,4 @@ if (Validator.isNull(url) && (userDisplay != null)) {
      tooltip.hide();
      
 </aui:script>
+<%-- END Rivet Logic Customization --%>

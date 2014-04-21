@@ -35,7 +35,7 @@ String adminDefaultOrganizationGroupNames = PrefsPropsUtil.getString(company.get
 String adminDefaultRoleNames = PrefsPropsUtil.getString(company.getCompanyId(), PropsKeys.ADMIN_DEFAULT_ROLE_NAMES);
 String adminDefaultUserGroupNames = PrefsPropsUtil.getString(company.getCompanyId(), PropsKeys.ADMIN_DEFAULT_USER_GROUP_NAMES);
 boolean adminSyncDefaultAssociations = PrefsPropsUtil.getBoolean(company.getCompanyId(), PropsKeys.ADMIN_SYNC_DEFAULT_ASSOCIATIONS, PropsValues.ADMIN_SYNC_DEFAULT_ASSOCIATIONS);
-
+/* BEGIN Rivet Logic Customization */
 final String HOVER_USER_INFO_COMMON_FRIENDS = "hover.user.info.common.friends";
 final String HOVER_USER_INFO_EMAIL_ADDRESS = "hover.user.info.email.address";
 final String HOVER_USER_INFO_FRIENDS = "hover.user.info.friends";
@@ -45,6 +45,7 @@ boolean showCommonFriends = PrefsPropsUtil.getBoolean(company.getCompanyId(), HO
 boolean showEmailAddress = PrefsPropsUtil.getBoolean(company.getCompanyId(), HOVER_USER_INFO_EMAIL_ADDRESS, GetterUtil.getBoolean(PropsUtil.get(HOVER_USER_INFO_EMAIL_ADDRESS)));
 boolean showFriends = PrefsPropsUtil.getBoolean(company.getCompanyId(), HOVER_USER_INFO_FRIENDS, GetterUtil.getBoolean(PropsUtil.get(HOVER_USER_INFO_FRIENDS)));
 boolean showPhoneNumber = PrefsPropsUtil.getBoolean(company.getCompanyId(), HOVER_USER_INFO_PHONE_NUMBER, GetterUtil.getBoolean(PropsUtil.get(HOVER_USER_INFO_PHONE_NUMBER)));
+/* END Rivet Logic Customization */
 %>
 
 <h3><liferay-ui:message key="users" /></h3>
@@ -86,15 +87,28 @@ boolean showPhoneNumber = PrefsPropsUtil.getBoolean(company.getCompanyId(), HOVE
 			<aui:input helpMessage="enter-the-default-user-group-names-per-line-that-are-associated-with-newly-created-users" label="user-groups" name='<%= "settings--" + PropsKeys.ADMIN_DEFAULT_USER_GROUP_NAMES + "--" %>' type="textarea" value="<%= adminDefaultUserGroupNames %>" />
 		</aui:fieldset>
 	</liferay-ui:section>
+	<%-- BEGIN Rivet Logic Customization --%>
 	<liferay-ui:section>
 		<aui:fieldset>
-			<aui:input label="common-friends" name='<%="settings--"+HOVER_USER_INFO_COMMON_FRIENDS+"--"%>' type="checkbox" value="<%= showCommonFriends %>"/>
-			
-			<aui:input label="email-address" name='<%="settings--"+HOVER_USER_INFO_EMAIL_ADDRESS+"--"%>' type="checkbox" value="<%= showEmailAddress %>"/>
-			
-			<aui:input label="friends" name='<%="settings--"+HOVER_USER_INFO_FRIENDS+"--"%>' type="checkbox" value="<%= showFriends %>"/>
-			
-			<aui:input label="phone-number" name='<%="settings--"+HOVER_USER_INFO_PHONE_NUMBER+"--"%>' type="checkbox" value="<%= showPhoneNumber %>"/>
+			<aui:input label="common-friends"
+				name='<%="settings--" + HOVER_USER_INFO_COMMON_FRIENDS
+								+ "--"%>'
+				type="checkbox" value="<%=showCommonFriends%>" />
+
+			<aui:input label="email-address"
+				name='<%="settings--" + HOVER_USER_INFO_EMAIL_ADDRESS
+								+ "--"%>'
+				type="checkbox" value="<%=showEmailAddress%>" />
+
+			<aui:input label="friends"
+				name='<%="settings--" + HOVER_USER_INFO_FRIENDS + "--"%>'
+				type="checkbox" value="<%=showFriends%>" />
+
+			<aui:input label="phone-number"
+				name='<%="settings--" + HOVER_USER_INFO_PHONE_NUMBER
+								+ "--"%>'
+				type="checkbox" value="<%= showPhoneNumber %>" />
 		</aui:fieldset>
 	</liferay-ui:section>
+	<%-- END Rivet Logic Customization --%>
 </liferay-ui:tabs>
