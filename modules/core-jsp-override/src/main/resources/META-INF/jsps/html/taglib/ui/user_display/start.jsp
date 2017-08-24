@@ -14,23 +14,21 @@
  */
 --%>
 
-<%@ include file="/html/taglib/ui/user_display/init.jsp" %>
+<%@ include file="/html/taglib/ui/user_display/init.jsp"%>
 <%-- CUSTOM start --%>
-<%@ include file="/html/taglib/ui/user_display/init-ext.jsp" %>
+<%@ include file="/html/taglib/ui/user_display/init-ext.jsp"%>
 <%-- CUSTOM end --%>
 
 <%-- CUSTOM start: added id --%>
-<div id="<%=randomNamespace %>taglib-user-display" class="display-style-<%= displayStyle %> taglib-user-display">
-<%-- CUSTOM end --%>
+<div id="<%=randomNamespace %>taglib-user-display"
+	class="display-style-<%= displayStyle %> taglib-user-display">
+	<%-- CUSTOM end --%>
 	<aui:a href="<%= url %>">
-		<liferay-ui:user-portrait
-			cssClass="<%= imageCssClass %>"
+		<liferay-ui:user-portrait cssClass="<%= imageCssClass %>"
 			user="<%= userDisplay %>"
-			userName="<%= (userDisplay != null) ? userDisplay.getFullName() : userName %>"
-		/>
+			userName="<%= (userDisplay != null) ? userDisplay.getFullName() : userName %>" />
 		<c:if test="<%= showUserName %>">
-			<span class="user-name">
-				<%= (userDisplay != null) ? HtmlUtil.escape(userDisplay.getFullName()) : HtmlUtil.escape(userName) %>
+			<span class="user-name"> <%= (userDisplay != null) ? HtmlUtil.escape(userDisplay.getFullName()) : HtmlUtil.escape(userName) %>
 			</span>
 		</c:if>
 	</aui:a>
