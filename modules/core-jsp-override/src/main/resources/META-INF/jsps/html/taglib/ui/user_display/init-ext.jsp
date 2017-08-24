@@ -128,15 +128,35 @@
 							</c:choose>
 						</div>
 					</c:if>
-					<strong>Common Friends (1)</strong>
-					<div class="portraits-list">
-						<div class="user-icon user-icon-default">
-							<span>JB</span>
+					<c:if test="<%= showCommonFriends && themeDisplay.getUserId() != userDisplay.getUserId() %>">
+						<c:set var="commonFriends"
+							value="<%=UserLocalServiceUtil.getSocialUsers(userDisplay.getUserId(), themeDisplay.getUserId(),
+							SocialRelationConstants.TYPE_BI_FRIEND, 0, FRIEND_IMAGES_COUNT,
+							new UserLoginDateComparator())%>" />
+						<c:set var="commonFriendsCount"
+                            value="<%=UserLocalServiceUtil.getSocialUsersCount(userDisplay.getUserId(),
+                            themeDisplay.getUserId(),
+                            SocialRelationConstants.TYPE_BI_FRIEND)%>" />
+                            
+						<strong><liferay-ui:message key="common-friends" /> (${ fn:escapeXml(commonFriendsCount) })</strong>
+						<div class="portraits-list">
+							<c:choose>
+                                <c:when test="${commonFriendsCount gt 0}">
+                                    <c:forEach items="${commonFriends}" var="commonFriend">
+                                        <c:set var="friendUrl"
+                                            value="<%=((User) pageContext.getAttribute(\"commonFriend\")).getDisplayURL(themeDisplay)%>" />
+                                        <a href="${friendUrl}" title="${commonFriend.fullName}">
+                                            <liferay-ui:user-portrait cssClass="user-icon-sm"
+                                                user="${commonFriend}" userName="${commonFriend.getFullName()}" />
+                                        </a>
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <liferay-ui:message key="no-common-friends"/>
+                                </c:otherwise>
+                            </c:choose>
 						</div>
-						<div class="user-icon user-icon-default">
-							<span>JB</span>
-						</div>
-					</div>
+					</c:if>
 				</div>
 			</div>
 		</div>
