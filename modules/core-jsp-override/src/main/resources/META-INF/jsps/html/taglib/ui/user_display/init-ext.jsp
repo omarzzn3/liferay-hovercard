@@ -1,4 +1,4 @@
-
+<%-- CUSTOM start --%>
 <%
 	String randomNamespace = PortalUtil.generateRandomKey(request, "taglib_ui_user_display")
 			+ StringPool.UNDERLINE;
@@ -74,3 +74,4 @@
 		</div>
 	</div>
 </div>
+<%-- CUSTOM end --%>
