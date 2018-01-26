@@ -32,24 +32,29 @@
     -showPopUp <%=showPopUp %>
 </pre> --%>
 <style>
-.hovercard-wrapper .tooltip {
-	max-width: 400px;
-}
-
-.hovercard-wrapper .tooltip-inner {
-	color: inherit;
-	max-width: none;
-	padding: 0;
-}
-
-.hovercard-wrapper .portraits-list {
-	margin: 0 0 5px
-}
-
-.hovercard-wrapper .portraits-list .user-icon {
-	display: inline-block;
-	margin: 0 1px;
-}
+	.hovercard-wrapper .tooltip {
+		max-width: 400px;
+	}
+	.hovercard-wrapper .tooltip-inner {
+		color: inherit;
+		max-width: none;
+		padding: 0;
+	}
+	.hovercard-wrapper .portraits-list {
+		-webkit-display: flex;
+		display: -webkit-box;      
+		display: -moz-box;        
+		display: -ms-flexbox; 
+		display: -webkit-flex; 
+		display: flex;
+		justify-content: center;
+		-webkit-justify-content: center;
+		margin: 0 0 5px;
+	}
+	.hovercard-wrapper .portraits-list .user-icon {
+		display: inline-block;
+		margin: 0 1px;
+	}
 </style>
 <c:if test="<%= showPopUp %>">
 	<aui:script use="aui-tooltip">
