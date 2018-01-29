@@ -30,31 +30,37 @@ if (Validator.isNull(url) && (userDisplay != null)) {
 .taglib-user-display {
 	display: inline-block;
 }
-
 .taglib-user-display .user-pop-up dl{
     margin-bottom:5px;
     margin-top:5px
 }
-
 .taglib-user-display .user-pop-up {
     padding: 15px; 
 }
-
-.taglib-user-display .user-pop-up .user-profile-image{
+.taglib-user-display .friends,
+.taglib-user-display .common-friends {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex; 
+	flex-wrap: wrap;
+	-webkit-flex-wrap: wrap;
+	-moz-flex-wrap: wrap;
+}
+.taglib-user-display .user-pop-up .user-profile-image {
     float:left;
 }
-
-.taglib-user-display .user-pop-up .user-profile-image > img{
-    width: 46px;
-    height: 46px;
-    margin-right:3px;
+.taglib-user-display .user-pop-up .user-profile-image > img {
+	width: 100%;
+    max-width: 46px;
+    margin-right: 3px;
+    margin-bottom: 3px;
 }
-
 .taglib-user-display .user-pop-up .clearfix {
     clear: both;
     display: block;
 }
-
 .taglib-user-display .user-pop-up {
     background-color: #FFFFFF;
     color: #000000;
