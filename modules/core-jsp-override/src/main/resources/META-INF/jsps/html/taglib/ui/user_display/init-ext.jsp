@@ -55,12 +55,14 @@
 		display: inline-block;
 		margin: 0 1px;
 	}
+	.hovercard-wrapper .view-profile-link {
+		margin-top: -10px;
+	}
 </style>
 <c:if test="<%= showPopUp %>">
 	<aui:script use="aui-tooltip">
 		A.on('domready', function() {
-			var srcNode = A
-					.one('#<%=randomNamespace %>taglib-user-display-hovercard');
+			var srcNode = A.one('#<%=randomNamespace %>taglib-user-display-hovercard');
 			var triggerNode = A.one('#<%=randomNamespace %>taglib-user-display');
 			srcNode.removeClass('hidden');
 			var tooltip = new A.Tooltip({
@@ -71,6 +73,10 @@
 				opacity : 0.9
 			}).render();
 			tooltip.hide();
+		
+			A.all('.user-profile-url').on('click',function(e){
+				e.preventDefault();
+			});
 		});
 	</aui:script> 
 
@@ -79,7 +85,10 @@
 			class="hovercard hidden">
 			<div class="card">
 				<div class="card-block text-center">
-					<h3><%= (userDisplay != null) ? userDisplay.getFullName() : userName %></h3>
+					<h3 class="hidden-sm hidden-xs"><%= (userDisplay != null) ? userDisplay.getFullName() : userName %></h3>
+					<h3 class="visible-sm visible-xs"><aui:a href="<%= url %>"><%= (userDisplay != null) ? userDisplay.getFullName() : userName %></aui:a></h3>
+					<aui:a href="<%= url %>" cssClass="visible-sm visible-xs view-profile-link">View profile</aui:a>
+
 					<c:if test="<%= showEmailAddress %>">
                         <h5 class="text-default">
                             <aui:a href="mailto:<%= userDisplay.getDisplayEmailAddress()%>"><%= userDisplay.getDisplayEmailAddress()%></aui:a>

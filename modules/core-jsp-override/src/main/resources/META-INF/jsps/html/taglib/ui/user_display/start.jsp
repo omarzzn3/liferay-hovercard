@@ -23,7 +23,7 @@
 <div id="<%=randomNamespace %>taglib-user-display"
 	class="display-style-<%= displayStyle %> taglib-user-display">
 	<%-- CUSTOM end --%>
-	<aui:a href="<%= url %>">
+	<aui:a href="<%= url %>" cssClass="user-profile-url">
 		<liferay-ui:user-portrait cssClass="<%= imageCssClass %>"
 			user="<%= userDisplay %>"
 			userName="<%= (userDisplay != null) ? userDisplay.getFullName() : userName %>" />
